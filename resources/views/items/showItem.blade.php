@@ -13,7 +13,7 @@
             url: '/showItem/' + itemID,
             data:   {
                         "_token": "{{ csrf_token() }}",
-                        "id": itemID
+                        "itemID": itemID,
                     },
             success: function(){
                 console.log('Success! Item has been made inactive');
@@ -77,7 +77,7 @@
             <h3 align="center">Current highest bid is {{ $maxBid }} made by: {{ $maxBidInfo->user_name }}</h3>
         @endif
 
-        <div align="center">Times bid: {{ $timesBid }}</div>   
+        <div align="center">Total times bid: {{ $timesBid }}</div>   
 
         @if(Session::has('message'))
             <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>

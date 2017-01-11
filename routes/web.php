@@ -48,7 +48,7 @@ Route::put('/userItems/{id}', 'ItemController@update');
 Route::delete('/userItems', 'ItemController@destroy');
 
 //itemu pagal kategorija puslapis
-Route::get('itemsByCategory/{category}', 'ItemController@itemsByCategory');
+Route::get('/itemsByCategory/{category}', 'ItemController@itemsByCategory');
 
 //BIDINIMAS
 Route::put('/showItem/{id}', 'ItemController@bidFunction')->where('id', '[0-9]+');
@@ -65,6 +65,9 @@ Route::put('/home', 'HomeController@enterBankAccNumber');
 Route::get('/userWins', 'ItemController@showUserWinsPage');
 //send winner to database
 Route::post('/showItem/{id}', 'ItemController@declareWinner');
+
+//search
+Route::get('/searchItem', 'QueryController@search');
 
 
 

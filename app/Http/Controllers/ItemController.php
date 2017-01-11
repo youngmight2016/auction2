@@ -19,7 +19,6 @@ class ItemController extends Controller
     private $validator;
     protected $previous;
 
-
     public function __construct() {
         $this->previous = app(\Illuminate\Routing\UrlGenerator::class)->previous();
     }
@@ -111,6 +110,10 @@ class ItemController extends Controller
     public function edit($id){
     	// get the item
         $items = Item::find($id);
+
+        if(Auth::user()->id !== $items->user_id){
+            return back();
+        }
 
         // show the edit form and pass the items
         return view('items/editItem')->with('items', $items);
@@ -216,14 +219,12 @@ class ItemController extends Controller
             ['lowest' => 250.00, 'highest' => 999999.00, 'minimumDifference' => 5.00],
         ]);
 
-        $fittingValues = $valueRange->filter(
-                                            function ($value) use ($bidValue) { 
+        $fittingValues = $valueRange->filter(function ($value) use ($bidValue) { 
                                                 return $bidValue >= $value['lowest'] && $bidValue <= $value['highest']; 
-                                            }
-                                        )->collapse();
+                                            })->collapse();
 
         if( $bidDifference < $fittingValues['minimumDifference'] ){
-            Session::flash('message', "Can't bid lower $fittingValues[minimumDifference]. Read the 'About' page why");
+            Session::flash('message', "Can't bid lower than $fittingValues[minimumDifference]. Read the 'About' page why");
             /*return redirect($this->previous)->with([‘id’ => $id])->withInput();*/
             return back();
         }else{
@@ -332,21 +333,21 @@ class ItemController extends Controller
         $winners = new Winner;
 
         $winnerID = Input::get('winnerID');
+        //dd($winnerID);
         $winningBid = Input::get('winningBid');
 
-        $previousWinningsCounter = $winners->where('item_id', $id)->where('user_id', $winnerID)->where('winner_bid', $winningBid)->count();
+        $previousWinningsOnThisItem = Winner::where('user_id', $winnerID)->where('item_id', $id)->first();
 
-        if($previousWinningsCounter > 0){
-            $previousWinnings = $winners->where('item_id', $id)->where('user_id', $winnerID)->where('winner_bid', $winningBid)->first();
-            $previousWinnings->item_id = $id;
-            $previousWinnings->user_id = $winnerID;
-            $previousWinnings->winner_bid = $winningBid;
-            $previousWinnings->save();
-        }else{
+        if($previousWinningsOnThisItem == null){
             $winners->item_id = $id;
             $winners->user_id = $winnerID;
             $winners->winner_bid = $winningBid;
             $winners->save();
+        }else{
+            $previousWinningsOnThisItem->item_id = $id;
+            $previousWinningsOnThisItem->user_id = $winnerID;
+            $previousWinningsOnThisItem->winner_bid = $winningBid;
+            $previousWinningsOnThisItem->save();
         }
     }
 }

@@ -29,35 +29,28 @@ class HomeController extends Controller
     public function index(){
         $hometable = new Home;
         $user_id = Auth::user()->id;
-        $bankInfo = $hometable->where('user_id', '=', $user_id)->get();
-        return view('home')->with('bankInfo', $bankInfo);
+        $contactinfo = $hometable->where('user_id', '=', $user_id)->get();
+        return view('home')->with('contactinfo', $contactinfo);
     }
 
     public function enterBankAccNumber(Request $request){
         $hometable = new Home;
 
-        if(Input::get('bankInfo') == NULL){
-            Session::flash('message', 'You did not enter anything');
-            return Redirect::to('home');
-        }
-
         $user_id = Auth::user()->id;
         $bankRecords = $hometable->where('user_id', '=', $user_id)->first();
 
-        if($bankRecords == NULL){
-            //LENTELEJE NERA IRASU SITO USERIO IR REIKIA SUSKURTI NAUJA
+        if($bankRecords == null){
             $hometable->user_id = $user_id;
-            $hometable->bankAccNumber = Input::get('bankInfo');
+            $hometable->bankAccNumber = Input::get('bankAccNumber');
+            $hometable->phone = Input::get('phoneNumber');
             $hometable->save();
-            $bankInfo = $hometable->where('user_id', '=', $user_id)->get();
         }else{
-            //LENTELEJE YRA IRASAS SITO USERIO, TAI REIKIA PAKEIST
-            $bankRecords->bankAccNumber = Input::get('bankInfo');
+            $bankRecords->bankAccNumber = Input::get('bankAccNumber');
+            $bankRecords->phone = Input::get('phoneNumber');
             $bankRecords->save();
-            $bankInfo = $hometable->where('user_id', '=', $user_id)->get();
         }
 
-        Session::flash('message', 'Successfully entered bankInfo!');
-        return Redirect::to('home')->with('bankInfo', $bankInfo);      
+        Session::flash('message', 'Successfully entered contactinfo!');
+        return Redirect::to('home');      
     }
 }

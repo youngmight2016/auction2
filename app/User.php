@@ -30,7 +30,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function bankinfo()
+    public function contactinfo()
     {
         return $this->hasOne(Home::class);
     }

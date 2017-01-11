@@ -16,7 +16,7 @@
                         {!! Form::label('Product Title') !!}
                         </p>
                         <p>
-                        {!! Form::text('title') !!}
+                        {!! Form::text('title', null, ['required']) !!}
                         </p>
 
 
@@ -24,7 +24,7 @@
                         {!! Form::label('Product Description') !!}
                         </p>
                         <p>
-                        {!! Form::textarea('description', null, ['class' => 'form-control',
+                        {!! Form::textarea('description', null, ['required', 'class' => 'form-control',
                             'placeholder' => 'Please add your item description here']) !!}
                         </p>
 
@@ -60,7 +60,7 @@
                         {!! Form::label('Product Bid') !!}
                         </p>
                         <p>
-                        {!! Form::number('bid', null, ['step'=>'0.01', 'min'=>'0.01', 'placeholder'=>'0.00']) !!}
+                        {!! Form::number('bid', null, ['required', 'step'=>'0.01', 'min'=>'0.01', 'placeholder'=>'0.00']) !!}
                         </p>
 
                         <p>

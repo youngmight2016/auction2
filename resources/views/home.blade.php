@@ -5,33 +5,39 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <h1 class="panel-heading">Homepage of {{ Auth::user()->name }}</h1>
 
                 <div class="panel-body">
-                    <div align="center"><h2>
-                        This is {{ Auth::user()->name }} homepage! 
-                    </h2></div>
-                    <div>
-                        To get money from your auctioned items, you need to input your bank account number. 
-                    </div>
-                    <div>For example: LTXXXXXXXXXXXXXXXX</div>
+                    <div>To get money from your auctioned items, you need to input your bank account number and your phone number so the winner can contact you.</div>
+                    <div>When bidding, please make notice of the minimum bid incrementals in our "About" page</div>
 
+                    
+                    <div style="margin-top: 5%">
                     {{ Form::open(array('action' => 'HomeController@enterBankAccNumber', 'method' => 'PUT')) }}
                         <p>
-                            {!! Form::text('bankInfo') !!}
+                            {!! Form::label('Enter your Bank Account Number:') !!} 
+                        </p>
+                        <p>
+                            {!! Form::text('bankAccNumber', null, ['required', 'placeholder' => 'LTXXXXXXXXX']) !!}
+                        </p>
+                        <p>
+                            {!! Form::label('Enter your Contact Phone Number:') !!} 
+                        </p>
+                        <p>
+                            {!! Form::text('phoneNumber', null, ['required', 'placeholder' => '86XXXXXXX']) !!}
                         </p>
                         <p>
                             {!! Form::submit('Submit', ['class' => 'btn btn-success']) !!}
                         </p>
                     {{ Form::close() }} 
+                    </div>
+                   
 
                     <div>
-                        <h2>
-                            Your current bank Account Number is: 
-                            @foreach($bankInfo as $value)
-                                {{ $value->bankAccNumber }}
-                            @endforeach  
-                        </h2>  
+                        @foreach($contactinfo as $value)
+                            <h3>Your bank Account number: {{ $value->bankAccNumber }}</h3>
+                            <h3>Your contact phone: {{ $value->phone }}</h3>
+                        @endforeach  
                     </div>
 
                     @if(Session::has('message'))

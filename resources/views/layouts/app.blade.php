@@ -53,6 +53,12 @@
                             <li><a href=" {{ URL::to('home') }}">Home</a></li>
                         @endif 
                         &nbsp;
+                        <li>
+                            {!! Form::open(array('action' => 'QueryController@search', 'class' => 'navbar-form navbar-left', 'method' => 'get')) !!}
+                                {!! Form::text('search', null, array('required','class'=>'form-control','placeholder'=>'Search for an item...')) !!}
+                                {!! Form::submit('Search', array('class'=>'btn btn-default')) !!}
+                            {!! Form::close() !!}
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
