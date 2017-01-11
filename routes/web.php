@@ -53,10 +53,8 @@ Route::get('/itemsByCategory/{category}', 'ItemController@itemsByCategory');
 //BIDINIMAS
 Route::put('/showItem/{id}', 'ItemController@bidFunction')->where('id', '[0-9]+');
 
-
 //AJAX padaryt itema neaktyvu
 Route::post('/showItem/{id}', 'ItemController@makeItemInactive');
-
 
 //HOME BANK INFO
 Route::put('/home', 'HomeController@enterBankAccNumber');
@@ -68,8 +66,3 @@ Route::post('/showItem/{id}', 'ItemController@declareWinner');
 
 //search
 Route::get('/searchItem', 'QueryController@search');
-
-
-
-
-

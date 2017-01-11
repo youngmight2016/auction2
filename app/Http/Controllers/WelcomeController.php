@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Item;
 
 class WelcomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // get all the nerds
         $items = Item::where('active', '=', '1')->orderBy('created_at', 'desc')->paginate(4);
 
