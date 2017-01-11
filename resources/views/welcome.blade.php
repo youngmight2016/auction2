@@ -77,6 +77,9 @@
     width: 800px;
     height: 300px;  
   }
+  .carousel-control.left, .carousel-control.right {
+    background-image: none
+  }
 </style>
 
 @endsection
